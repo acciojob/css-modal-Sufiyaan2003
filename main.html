@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>CSS Modal Example</title>
+  <title>CSS + JS Modal</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,15 +11,16 @@
     }
 
     #openModal {
+      margin: 15px 0 0 10px;
       display: inline-block;
-      margin: 20px 0 0 10px;
-      padding: 5px 15px;
-      background: #666;
-      color: #fff;
-      border-radius: 2px;
+      background: #eee;
+      border: 1px solid #aaa;
+      padding: 5px 11px;
       text-decoration: none;
+      color: #333;
+      border-radius: 2px;
       cursor: pointer;
-      font-size: 15px;
+      font-size: 14px;
     }
 
     .modal {
@@ -34,24 +35,20 @@
       justify-content: center;
       align-items: center;
     }
-    /* Show modal when targeted */
-    #modal:target {
+
+    .modal.open {
       display: flex;
     }
 
     .modal-content {
       background: #fff;
-      border-radius: 4px;
+      border-radius: 3px;
       box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-      width: 70vw;
-      max-width: 650px;
-      margin: 3% auto;
+      width: 75vw;
+      max-width: 700px;
+      margin: 5% auto;
       position: relative;
-      animation: popIn 0.25s;
-    }
-    @keyframes popIn {
-      from { transform: scale(0.95); opacity: 0; }
-      to   { transform: scale(1); opacity: 1; }
+      min-width: 320px;
     }
 
     .modal-header {
@@ -61,25 +58,28 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-radius: 4px 4px 0 0;
+      border-radius: 3px 3px 0 0;
     }
+
     .modal-header h2 {
       margin: 0;
-      font-size: 1.2rem;
       font-weight: 600;
+      font-size: 1.18rem;
     }
 
     .close-modal {
+      font-size: 24px;
       color: #222;
-      font-size: 26px;
       text-decoration: none;
       font-weight: bold;
-      margin-left: 14px;
       cursor: pointer;
+      margin-left: 15px;
       transition: color 0.2s;
+      line-height: 1;
     }
+
     .close-modal:hover {
-      color: #e53935;
+      color: #d32f2f;
     }
 
     .modal-body {
@@ -87,26 +87,41 @@
       color: #222;
       font-size: 1rem;
     }
-
-    /* Optional: Remove anchor highlight */
-    .close-modal:focus, #openModal:focus {outline: none;}
   </style>
 </head>
 <body>
-  <!-- Button as link to open modal -->
-  <a href="#modal" id="openModal">Open Modal</a>
-  <!-- Modal structure with id for targeting -->
+  <!-- Button to open modal -->
+  <button id="openModal">Open Modal</button>
+  <!-- Modal structure -->
   <div id="modal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
         <h2>Modal Header</h2>
-        <!-- Close link brings user back to normal page -->
-        <a href="#" class="close-modal">&times;</a>
+        <span class="close-modal" id="closeModal">&times;</span>
       </div>
       <div class="modal-body">
         <p>Modal Body Content</p>
       </div>
     </div>
   </div>
+  <script>
+    const openBtn = document.getElementById('openModal');
+    const modal = document.getElementById('modal');
+    const closeBtn = document.getElementById('closeModal');
+
+    openBtn.onclick = function() {
+      modal.classList.add('open');
+    };
+
+    closeBtn.onclick = function() {
+      modal.classList.remove('open');
+    };
+
+    window.onclick = function(event) {
+      if (event.target === modal) {
+        modal.classList.remove('open');
+      }
+    };
+  </script>
 </body>
 </html>
