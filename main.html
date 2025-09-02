@@ -24,7 +24,7 @@
     }
 
     .modal {
-      display: none;
+      display: none; /* hidden by default */
       position: fixed;
       z-index: 1000;
       left: 0;
@@ -32,12 +32,18 @@
       width: 100vw;
       height: 100vh;
       background: rgba(90, 90, 90, 0.85);
-      justify-content: center;
-      align-items: center;
     }
 
     .modal.open {
+      display: block; /* block when open */
+    }
+
+    .modal-center {
+      /* center the modal-content */
+      min-height: 100vh;
       display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .modal-content {
@@ -90,17 +96,17 @@
   </style>
 </head>
 <body>
-  <!-- Button to open modal -->
   <button id="openModal">Open Modal</button>
-  <!-- Modal structure -->
   <div id="modal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Modal Header</h2>
-        <span class="close-modal" id="closeModal">&times;</span>
-      </div>
-      <div class="modal-body">
-        <p>Modal Body Content</p>
+    <div class="modal-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Modal Header</h2>
+          <span class="close-modal" id="closeModal" tabindex="0">&times;</span>
+        </div>
+        <div class="modal-body">
+          <p>Modal Body Content</p>
+        </div>
       </div>
     </div>
   </div>
@@ -118,6 +124,7 @@
     };
 
     window.onclick = function(event) {
+      // Close modal if click on overlay (not modal content)
       if (event.target === modal) {
         modal.classList.remove('open');
       }
