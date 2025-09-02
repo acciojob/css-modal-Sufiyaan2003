@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>CSS + JS Modal</title>
+  <meta charset="UTF-8" />
+  <title>CSS + JS Modal Fix</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -24,7 +24,7 @@
     }
 
     .modal {
-      display: none; /* hidden by default */
+      display: none; /* hidden */
       position: fixed;
       z-index: 1000;
       left: 0;
@@ -35,11 +35,10 @@
     }
 
     .modal.open {
-      display: block; /* block when open */
+      display: block; /* shown */
     }
 
     .modal-center {
-      /* center the modal-content */
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -110,21 +109,22 @@
       </div>
     </div>
   </div>
+
   <script>
     const openBtn = document.getElementById('openModal');
     const modal = document.getElementById('modal');
     const closeBtn = document.getElementById('closeModal');
 
-    openBtn.onclick = function() {
+    openBtn.onclick = function () {
       modal.classList.add('open');
     };
 
-    closeBtn.onclick = function() {
+    closeBtn.onclick = function () {
       modal.classList.remove('open');
     };
 
-    window.onclick = function(event) {
-      // Close modal if click on overlay (not modal content)
+    window.onclick = function (event) {
+      // Close modal only if click was exactly on the modal overlay itself
       if (event.target === modal) {
         modal.classList.remove('open');
       }
