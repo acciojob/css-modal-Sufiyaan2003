@@ -2,14 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CSS + JS Modal Fix</title>
+  <title>Modal Overlay Click Fix</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
     }
-
     #openModal {
       margin: 15px 0 0 10px;
       display: inline-block;
@@ -22,29 +21,23 @@
       cursor: pointer;
       font-size: 14px;
     }
-
     .modal {
-      display: none; /* hidden */
+      display: none;
       position: fixed;
       z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100vw;
-      height: 100vh;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
       background: rgba(90, 90, 90, 0.85);
     }
-
     .modal.open {
-      display: block; /* shown */
+      display: block;
     }
-
     .modal-center {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-
     .modal-content {
       background: #fff;
       border-radius: 3px;
@@ -55,7 +48,6 @@
       position: relative;
       min-width: 320px;
     }
-
     .modal-header {
       background-color: #43a047;
       color: #fff;
@@ -65,28 +57,24 @@
       align-items: center;
       border-radius: 3px 3px 0 0;
     }
-
     .modal-header h2 {
       margin: 0;
       font-weight: 600;
       font-size: 1.18rem;
     }
-
     .close-modal {
       font-size: 24px;
       color: #222;
-      text-decoration: none;
       font-weight: bold;
       cursor: pointer;
       margin-left: 15px;
       transition: color 0.2s;
       line-height: 1;
+      user-select: none;
     }
-
     .close-modal:hover {
       color: #d32f2f;
     }
-
     .modal-body {
       padding: 18px 22px;
       color: #222;
@@ -96,9 +84,9 @@
 </head>
 <body>
   <button id="openModal">Open Modal</button>
-  <div id="modal" class="modal">
+  <div id="modal" class="modal" tabindex="-1">
     <div class="modal-center">
-      <div class="modal-content">
+      <div class="modal-content" tabindex="0">
         <div class="modal-header">
           <h2>Modal Header</h2>
           <span class="close-modal" id="closeModal" tabindex="0">&times;</span>
@@ -114,18 +102,21 @@
     const openBtn = document.getElementById('openModal');
     const modal = document.getElementById('modal');
     const closeBtn = document.getElementById('closeModal');
+    const modalContent = modal.querySelector('.modal-content');
 
     openBtn.onclick = function () {
       modal.classList.add('open');
+      modal.focus();
     };
 
     closeBtn.onclick = function () {
       modal.classList.remove('open');
     };
 
-    window.onclick = function (event) {
-      // Close modal only if click was exactly on the modal overlay itself
-      if (event.target === modal) {
+    // Listen on modal overlay for clicks
+    modal.onclick = function(event) {
+      // Close modal if click outside modal-content (on overlay)
+      if (!modalContent.contains(event.target)) {
         modal.classList.remove('open');
       }
     };
